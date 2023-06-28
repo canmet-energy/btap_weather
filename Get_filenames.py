@@ -1,0 +1,38 @@
+import json
+import requests
+
+f = open("./Can_Canada_Future_files.txt", "r")
+
+names = list()
+
+for line in f:
+    index = line.find("href=\"")
+    start_name = index + 6
+    partline = line[start_name:-1]
+    index_close = partline.find("\"")
+    end_name = start_name + index_close
+    name = line[(start_name):end_name]
+    name_add = "https://climate.onebuilding.org/WMO_Region_4_North_and_Central_America/CAN_Canada_Future/" + name
+    if (name_add in names) or (len(name) == 0):
+        continue
+    else:
+        names.append(name_add)
+
+
+for name in names:
+    out_name_start = name[89:len(name)]
+    start_index = out_name_start.find("/") + 1
+    out_name = out_name_start[start_index:len(out_name_start)]
+    r = requests.get(name, allow_redirects=True)
+    open(out_name, 'wb').write(r.content)
+
+
+#f.close()
+#json_object = json.dumps(names, indent=4)
+#with open("./download_names.json","w") as outfile:
+#    outfile.write(json_object)
+
+#print("hello")
+
+#https://climate.onebuilding.org/WMO_Region_4_North_and_Central_America/CAN_Canada_Future/AB_Alberta/CAN_AB_Abee.AgDM.712850_NRCv12022_TMY_GW3.0.zip
+#https://climate.onebuilding.org/WMO_Region_4_North_and_Central_America/CAN_Canada_Future/NL_Newfoundland_and_Labrador/CAN_NL_Deer.Lake.Rgnl.AP.718090_NRCv12022_TRY_MaxTemp_GW0.5.zip
