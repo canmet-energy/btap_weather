@@ -9,27 +9,40 @@ pre_string = "https://climate.onebuilding.org/WMO_Region_4_North_and_Central_Ame
 pre_string_len = len(pre_string)
 
 for line in f:
-    index = line.find("href=\"")
-    start_name = index + 6
-    partline = line[start_name:-1]
-    index_close = partline.find("\"")
-    end_name = start_name + index_close
-    name = line[(start_name):end_name]
-    name_add = pre_string + name
-    if (name_add in names) or (len(name) == 0):
-        continue
-    else:
-        names.append(name_add)
+    line_length = len(line)
+    line_start = 0
+    while line_start < line_length:
+        input_line = line[line_start:len(line)]
+        search_string = "title=\""
+        search_string_len = len(search_string)
+        index = input_line.find(search_string)
+        if index >= 0:
+            start_index = line_start + index + search_string_len
+            partline = line[start_index:line_length]
+            index_close = partline.find("\"")
+            end_name = start_index + index_close
+            line_start = end_name + 1
+            name = line[(start_index):end_name]
+            name_add = pre_string + name
+            if (name_add in names) or (len(name) == 0):
+                continue
+            else:
+                zip_loc = name_add.find("zip")
+                if zip_loc >= 0:
+                    names.append(name_add)
+        else:
+            line_start = line_length + 10
+
+sort_names = sorted(names)
 
 f.close()
-
-json_object = json.dumps(names, indent=4)
+json_object = json.dumps(sort_names, indent=4)
 with open("./download_historic_names.json","w") as outfile:
     outfile.write(json_object)
 
 count_ind = 0
 
-for name in names:
+for name in sort_names:
     if len(name) == 0:
         continue
     else:
@@ -43,5 +56,4 @@ for name in names:
 print(count_ind)
 
 #print("hello")
-
 #https://climate.onebuilding.org/WMO_Region_4_North_and_Central_America/CAN_Canada/AB_Alberta/CAN_AB_Athabasca.AgCM.712710_TMYx.2004-2018.zip
