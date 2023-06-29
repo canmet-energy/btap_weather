@@ -18,19 +18,25 @@ for line in f:
     else:
         names.append(name_add)
 
+f.close()
+json_object = json.dumps(names, indent=4)
+with open("./download_future_names.json","w") as outfile:
+    outfile.write(json_object)
+
+count_ind = 0
 
 for name in names:
-    out_name_start = name[89:len(name)]
-    start_index = out_name_start.find("/") + 1
-    out_name = ".././future/" + out_name_start[start_index:len(out_name_start)]
-    r = requests.get(name, allow_redirects=True)
-    open(out_name, 'wb').write(r.content)
+    if len(name) == 0:
+        continue
+    else:
+        count_ind += 1
+        out_name_start = name[89:len(name)]
+        start_index = out_name_start.find("/") + 1
+        out_name = ".././future/" + out_name_start[start_index:len(out_name_start)]
+        r = requests.get(name, allow_redirects=True)
+        open(out_name, 'wb').write(r.content)
 
-
-#f.close()
-#json_object = json.dumps(names, indent=4)
-#with open("./download_names.json","w") as outfile:
-#    outfile.write(json_object)
+print(count_ind)
 
 #print("hello")
 
