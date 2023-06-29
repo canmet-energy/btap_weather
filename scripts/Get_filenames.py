@@ -22,7 +22,7 @@ for line in f:
 for name in names:
     out_name_start = name[89:len(name)]
     start_index = out_name_start.find("/") + 1
-    out_name = "./future/" + out_name_start[start_index:len(out_name_start)]
+    out_name = ".././future/" + out_name_start[start_index:len(out_name_start)]
     r = requests.get(name, allow_redirects=True)
     open(out_name, 'wb').write(r.content)
 
