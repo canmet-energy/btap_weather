@@ -13,7 +13,7 @@ for line in f:
     line_start = 0
     while line_start < line_length:
         input_line = line[line_start:len(line)]
-        search_string = "title=\""
+        search_string = "href=\""
         search_string_len = len(search_string)
         index = input_line.find(search_string)
         if index >= 0:
