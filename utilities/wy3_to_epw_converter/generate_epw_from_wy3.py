@@ -122,6 +122,7 @@ def main_program():
             output_epw_f.write(line)
             if line_n == 8:
                 break
+    log_f = open("log.txt","w")
     line_n = 0
     conv_f = wy3_to_epw_conv_f()
     var_col_info = wy3_var_col_info()
@@ -148,8 +149,8 @@ def main_program():
         elif tdb_flag == "T":
             tdb_ds = "B9"
         else:
-            print(tdb_flag)
-            raise Exception("tdb flag is not blank nor E")
+            message = "Dry-bulb temperature flag " + tdb_flag + " on line " + str(line_n) + " is not blank nor E\n"
+            log_f.write(message)
         tdp = line[var_col_info['tdp'][0]-1:var_col_info['tdp'][1]]
         tdp_epw = str(round(int(tdp)*conv_f['temperature'],1))  # Dew-Point Temperature (DegC)
         tdp_flag = line[var_col_info['tdp'][1]:var_col_info['tdp'][2]]
@@ -158,8 +159,8 @@ def main_program():
         elif tdp_flag == "T":
             tdp_ds = "B9"
         else:
-            print(tdp_flag)
-            raise Exception("tdp flag is not blank nor E")
+            message = "Dew-point temperature flag " + tdp_flag + " on line " + str(line_n) + " is not blank nor E\n"
+            log_f.write(message)
         pv = psat_water_vapour(float(tdp_epw))  
         psat = psat_water_vapour(float(tdb_epw))
         rh_epw = str(round(100*pv/psat))  # Relative Humidity (%)
@@ -171,8 +172,8 @@ def main_program():
         elif p_flag == "T":
             p_ds = "B9"
         else:
-            print(p_flag)
-            raise Exception("p flag is not blank nor E")
+            message = "Atmospheric pressure flag " + p_flag + " on line " + str(line_n) + " is not blank nor E\n"
+            log_f.write(message)
         p_epw = str(int(p)*conv_f['pressure'])  # Absolute Pressure (Pa)
         ext_rad = line[var_col_info['ext_rad'][0]-1:var_col_info['ext_rad'][1]]
         ext_rad_epw = str(round(float(ext_rad)*conv_f['radiation']))  # Extraterrestrial irradiance (Wh/m2)
@@ -190,8 +191,8 @@ def main_program():
         (global_hor_rad_flag == "I ") or (global_hor_rad_flag == "9 "):
             global_hor_rad_ds = "?0"
         else:
-            print(global_hor_rad_flag)
-            raise Exception("global_hor_rad_flag is not M nor S nor nor N nor I nor 9")
+            message = "Global horizontal radiation flag " + global_hor_rad_flag + " on line " + str(line_n) + " is not I nor 9\n"
+            log_f.write(message)
         dir_nor_rad = line[var_col_info['dir_nor_rad'][0]-1:var_col_info['dir_nor_rad'][1]]
         dir_nor_rad_epw = "9999"
         if dir_nor_rad != "9999":
@@ -200,19 +201,18 @@ def main_program():
         if (dir_nor_rad_flag == "S ") or (dir_nor_rad_flag == "Q ") or  (dir_nor_rad_flag == "N ") or (dir_nor_rad_flag == "9 "):
             dir_nor_rad_ds = "?0"
         else:
-            print(dir_nor_rad_flag)
-            raise Exception("dir_nor_rad_flag is not S nor Q nor N nor 9")
+            message = "Direct normal radiation flag " + dir_nor_rad_flag + " on line " + str(line_n) + " is not S nor Q nor N nor 9\n"
+            log_f.write(message)
         diff_hor_rad = line[var_col_info['diff_hor_rad'][0]-1:var_col_info['diff_hor_rad'][1]]
         diff_hor_rad_epw = "9999"
         if diff_hor_rad != "9999":
             diff_hor_rad_epw = str(round(float(diff_hor_rad)*conv_f['radiation'])) # Diffuse Horizontal Irradiance (Wh/m2)
         diff_hor_rad_flag = line[var_col_info['diff_hor_rad'][1]:var_col_info['diff_hor_rad'][2]]
-        if (diff_hor_rad_flag == "S ") or (diff_hor_rad_flag == "M ") or (diff_hor_rad_flag == "N ") or (diff_hor_rad_flag) or \
-        (diff_hor_rad_flag == "9 "):
+        if (diff_hor_rad_flag == "S ") or (diff_hor_rad_flag == "M ") or (diff_hor_rad_flag == "N ") or (diff_hor_rad_flag == "9 "):
             diff_hor_rad_ds = "?0"
         else:
-            print(diff_hor_rad_flag)
-            raise Exception("diff_hor_rad_flag is not S nor Q nor N nor I nor 9")
+            message = "Diffuse horizontal radiation flag " + diff_hor_rad_flag + " on line " + str(line_n) + " is not S nor M nor N nor 9\n"
+            log_f.write(message)
         global_hor_ill = line[var_col_info['global_hor_ill'][0]-1:var_col_info['global_hor_ill'][1]]
         global_hor_ill_epw = "999999"
         if global_hor_ill != "9999":
@@ -221,7 +221,8 @@ def main_program():
         if (global_hor_ill_flag == "Q") or  (global_hor_ill_flag == "9"):
             global_hor_ill_ds = "?0"
         else:
-            raise Exception("global_hor_ill_flag is not Q nor 9")
+            message = "Global horizontal illuminance flag " + global_hor_ill_flag + " on line " + str(line_n) + " is not Q nor 9\n"
+            log_f.write(message)
         dir_nor_ill = line[var_col_info['dir_nor_ill'][0]-1:var_col_info['dir_nor_ill'][1]] 
         dir_nor_ill_epw = "999999"
         if dir_nor_ill != "9999":
@@ -230,7 +231,8 @@ def main_program():
         if (dir_nor_ill_flag == "Q") or (dir_nor_ill_flag == "9"):
             dir_nor_ill_ds = "?0"
         else:
-            raise Exception("dir_nor_ill_flag is not Q nor 9")
+            message = "Direct normal illuminance flag " + dir_nor_ill_flag + " on line " + str(line_n) + " is not Q nor 9\n"
+            log_f.write(message)
         diff_hor_ill = line[var_col_info['diff_hor_ill'][0]-1:var_col_info['diff_hor_ill'][1]]
         diff_hor_ill_epw = "999999"
         if diff_hor_ill != "9999":
@@ -239,8 +241,8 @@ def main_program():
         if (diff_hor_ill_flag == "Q") or (diff_hor_ill_flag == "9"):
             diff_hor_ill_ds = "?0"
         else:
-            print(diff_hor_ill_flag)
-            raise Exception("diff_hor_ill_flag is not Q nor 9")
+            message = "Diffuse horizontal illuminance flag " + diff_hor_ill_flag + " on line " + str(line_n) + " is not Q nor 9\n"
+            log_f.write(message)
         zenith_ill = line[var_col_info['zenith_ill'][0]-1:var_col_info['zenith_ill'][1]]
         zenith_ill_epw = "9999"
         if zenith_ill != "9999":
@@ -249,7 +251,8 @@ def main_program():
         if (zenith_ill_flag == "9"):
             zenith_ill_ds = "?0"
         else:
-            raise Exception("zenith_ill_flag is not 9")
+            message = "Zenith illuminance flag " + zenith_ill_flag + " on line " + str(line_n) + " is not 9\n"
+            log_f.write(message)
         wind_dir = line[var_col_info['wind_dir'][0]-1:var_col_info['wind_dir'][1]]
         wind_dir_epw = "999"
         if wind_dir != "999":
@@ -260,8 +263,8 @@ def main_program():
         elif wind_dir_flag == "T":
             wind_dir_ds = "B9"
         else:
-            print(wind_dir_flag)
-            raise Exception("wind_dir_flag is not blank nor E nor 9")
+            message = "Wind direction flag " + wind_dir_flag + " on line " + str(line_n) + " is not blank nor E nor 9 nor T\n"
+            log_f.write(message)
         wind_speed = line[var_col_info['wind_speed'][0]-1:var_col_info['wind_speed'][1]]
         wind_speed_epw = "999"
         if wind_speed != "9999":
@@ -272,8 +275,8 @@ def main_program():
         elif wind_speed_flag == "T":
             wind_speed_ds = "B9"
         else:
-            print(wind_speed_flag)
-            raise Exception("wind_speed_flag is not blank nor E nor 9")
+            message = "Wind speed flag " + wind_speed_flag + " on line " + str(line_n) + " is not blank nor E nor 9 nor T\n"
+            log_f.write(message)
         total_sky_cover = line[var_col_info['total_sky_cover'][0]-1:var_col_info['total_sky_cover'][1]]
         total_sky_cover_epw = "99"
         if total_sky_cover != "99":
@@ -282,7 +285,8 @@ def main_program():
         if (total_sky_cover_flag == " ") or (total_sky_cover_flag == "9"):
             total_sky_cover_ds = "?9"
         else:
-            raise Exception("total_sky_cover_flag is not blank nor 9")
+            message = "Total sky cover " + total_sky_cover_flag + " on line " + str(line_n) + " is not blank nor 9\n"
+            log_f.write(message)
         opaque_sky_cover = line[var_col_info['opaque_sky_cover'][0]-1:var_col_info['opaque_sky_cover'][1]]
         opaque_sky_cover_epw = "99"
         if opaque_sky_cover != "99":
@@ -291,7 +295,8 @@ def main_program():
         if (opaque_sky_cover_flag == " ") or (opaque_sky_cover_flag == "9"):
             opaque_sky_cover_ds = "?9"
         else:
-            raise Exception("total_sky_cover_flag is not blank nor 9")
+            message = "Opaque sky cover " + opaque_sky_cover_flag + " on line " + str(line_n) + " is not blank nor 9\n"
+            log_f.write(message)
         visibility = line[var_col_info['visibility'][0]-1:var_col_info['visibility'][1]]
         visibility_epw = "9999"
         if visibility != "9999":
@@ -300,8 +305,8 @@ def main_program():
         if (visibility_flag == " ") or (visibility_flag == "E") or (visibility_flag == "9"):
             visibility_ds = "?9"
         else:
-            print(visibility_flag)
-            raise Exception("visibility_flag is not blank nor E nor 9")
+            message = "Visibility " + visibility_flag + " on line " + str(line_n) + " is not blank nor E nor 9\n"
+            log_f.write(message)
         clg_height = line[var_col_info['clg_height'][0]-1:var_col_info['clg_height'][1]]
         clg_height_epw = "99999"
         if clg_height != "9999":
@@ -310,8 +315,8 @@ def main_program():
         if (clg_height_flag == " ") or (clg_height_flag == "E") or (clg_height_flag == "9"):
             clg_height_ds = "?9"
         else:
-            print(clg_height_flag)
-            raise Exception("clg_height_flag is not blank nor 9")
+            message = "Ceiling height flag " + clg_height_flag + " on line " + str(line_n) + " is not blank nor E nor 9\n"
+            log_f.write(message)
         present_wth_obs_epw = "9"  # Present Weather Observation. Not present in wy3 file.
         present_wth_obs_ds = "?9"
         present_wth_codes_epw = "0"  # Present Weather Codes. Not present in wy3 file.
@@ -359,7 +364,8 @@ def main_program():
     if len(input_epw_fname) > 0:
         input_epw_f.close()
     output_epw_f.close()
-
+    log_f.close()
+	
 if __name__=="__main__":
     main_program()
 
