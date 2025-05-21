@@ -1,16 +1,4 @@
 [
-    "4C_Vancouver_HWY_Longterm_MostSevere_2087.zip",
-    "4C_Vancouver_TMY_2001-2020.zip",
-    "4C_Vancouver_TMY_2041-2060.zip",
-    "4C_Vancouver_TMY_2081-2100.zip",
-    "5A_Toronto_HWY_Longterm_MostSevere_Longest_2091.zip",
-    "5A_Toronto_TMY_2001-2020.zip",
-    "5A_Toronto_TMY_2041-2060.zip",
-    "5A_Toronto_TMY_2081-2100.zip", 
-    "6A_Montreal_HWY_Longterm_MostIntense_MostSevere_Longest_2090.zip",
-    "6A_Montreal_TMY_2001-2020.zip",
-    "6A_Montreal_TMY_2041-2060.zip",
-    "6A_Montreal_TMY_2081-2100.zip", 
     "CAN_AB_Abee.AgDM.712850_NRCv12022_TMY_1991-2021.zip",
     "CAN_AB_Abee.AgDM.712850_NRCv12022_TMY_GW0.5.zip",
     "CAN_AB_Abee.AgDM.712850_NRCv12022_TMY_GW1.0.zip",
@@ -18058,5 +18046,11 @@
     "CAN_YT_Whitehorse.Intl.AP.719640_NRCv12022_TRY_MinTemp_GW2.0.zip",
     "CAN_YT_Whitehorse.Intl.AP.719640_NRCv12022_TRY_MinTemp_GW2.5.zip",
     "CAN_YT_Whitehorse.Intl.AP.719640_NRCv12022_TRY_MinTemp_GW3.0.zip",
-    "CAN_YT_Whitehorse.Intl.AP.719640_NRCv12022_TRY_MinTemp_GW3.5.zip"
+    "CAN_YT_Whitehorse.Intl.AP.719640_NRCv12022_TRY_MinTemp_GW3.5.zip",
+    "CAN_QC_Montreal-Trudeau.Intl.AP.716270_NRCv12022_TMY_GW1.5EPW.zip",
+    "CAN_ON_Toronto-Pearson.Intl.AP.716240_NRCv12022_TMY_GW1.5EPW.zip",
+    "CAN_ON_Ottawa-Macdonald-Cartier.Intl.AP.716280_NRCv12022_TMY_GW1.5EPW.zip",
+    "CAN_NS_Halifax-Stanfield.Intl.AP.713950_NRCv12022_TMY_GW1.5EPW.zip",
+    "CAN_BC_Vancouver.Intl.AP.718920_NRCv12022_TMY_GW1.5EPW.zip",
+    "CAN_BC_Kelowna.Intl.AP.712030_NRCv12022_TMY_GW1.5EPW.zip"
 ]
